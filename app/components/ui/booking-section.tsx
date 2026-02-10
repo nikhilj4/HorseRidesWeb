@@ -52,6 +52,31 @@ export function BookingSection() {
         localStorage.setItem('admin_bookings', JSON.stringify([newBooking, ...existingBookings]));
 
         console.log(`Booking Confirmed: ${packageType} on ${formattedDate} at ${time} for ${people} people.`);
+
+        // Add to Google Calendar
+        if (date && time) {
+            const startTimePart = time.split(':');
+            const startDateTime = new Date(date);
+            // Ensure date object is fresh or properly cloned if needed, but here it's fine state
+            startDateTime.setHours(parseInt(startTimePart[0]), parseInt(startTimePart[1]));
+
+            const endDateTime = new Date(startDateTime);
+            endDateTime.setHours(startDateTime.getHours() + 2); // Assume 2 hours duration by default
+
+            // Format for Google Calendar: YYYYMMDDTHHmmssZ
+            const formatGCalDate = (d: Date) => d.toISOString().replace(/-|:|\.\d\d\d/g, "");
+
+            const gCalUrl = new URL("https://www.google.com/calendar/render");
+            gCalUrl.searchParams.append("action", "TEMPLATE");
+            gCalUrl.searchParams.append("text", `Horse Ride: ${packageType}`);
+            gCalUrl.searchParams.append("dates", `${formatGCalDate(startDateTime)}/${formatGCalDate(endDateTime)}`);
+            gCalUrl.searchParams.append("details", `Customer: ${name}\nGuests: ${people}\nPackage: ${packageType}\nAmount paid: ₹${totalAmount}`);
+            gCalUrl.searchParams.append("location", "Horse Riding Center");
+            gCalUrl.searchParams.append("add", "nikhiljram4@gmail.com");
+
+            // Open in new tab allow popup
+            window.open(gCalUrl.toString(), '_blank');
+        }
     };
 
     return (
