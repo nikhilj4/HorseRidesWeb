@@ -7,36 +7,55 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-// Mock Data
-const analyticsData = {
-    monthly: { bookings: 145, revenue: 217500, growth: 12 },
-    weekly: { bookings: 32, revenue: 48000, growth: 5 }, // avg 48000 INR
-    yearly: { bookings: 1850, revenue: 2775000, growth: 24 }
-};
-
-const recentBookings = [
-    { id: 1, name: "Arun Kumar", package: "Sunset Ride", date: "2024-03-10", time: "17:00", guests: 2, status: "Confirmed", amount: 4000 },
-    { id: 2, name: "Sarah Jenkins", package: "Guided Horse Ride", date: "2024-03-11", time: "10:00", guests: 4, status: "Pending", amount: 6000 },
-    { id: 3, name: "Rajesh Singh", package: "Jeep Safari", date: "2024-03-12", time: "09:00", guests: 6, status: "Confirmed", amount: 15000 },
-    { id: 4, name: "Priya Menon", package: "Night Camping", date: "2024-03-15", time: "18:00", guests: 2, status: "Confirmed", amount: 6000 },
-    { id: 5, name: "Tom Wilson", package: "Beginner Lesson", date: "2024-03-16", time: "08:00", guests: 1, status: "Completed", amount: 1200 },
-    { id: 6, name: "Anita Desai", package: "Guided Horse Ride", date: "2024-03-18", time: "11:00", guests: 3, status: "Pending", amount: 4500 },
+// Keep initial data for "seeded" look
+const initialBookings = [
+    { id: 1, name: "Rahul Sharma", package: "Sunset Ride", date: "2026-02-10", time: "17:30", guests: 2, status: "Confirmed", amount: 4000 },
+    { id: 2, name: "Priya Nair", package: "Guided Horse Ride", date: "2026-02-10", time: "10:00", guests: 4, status: "Pending", amount: 6000 },
+    { id: 3, name: "Amit Patel", package: "Jeep Safari", date: "2026-02-09", time: "09:00", guests: 5, status: "Confirmed", amount: 12500 },
+    { id: 4, name: "Sneha Reddy", package: "Night Camping", date: "2026-02-09", time: "18:00", guests: 2, status: "Confirmed", amount: 6000 },
+    { id: 5, name: "David Miller", package: "Beginner Lesson", date: "2026-02-08", time: "08:00", guests: 1, status: "Completed", amount: 1200 },
+    { id: 6, name: "Vikram Singh", package: "Guided Horse Ride", date: "2026-02-08", time: "11:00", guests: 3, status: "Pending", amount: 4500 },
 ];
 
 export default function AdminDashboard() {
     const router = useRouter();
     const [period, setPeriod] = useState<'weekly' | 'monthly' | 'yearly'>('monthly');
+    const [bookings, setBookings] = useState(initialBookings);
+    const [stats, setStats] = useState({ bookings: 0, revenue: 0, growth: 12 });
 
     useEffect(() => {
-        // Simple client-side auth check
+        // Auth Check
         const isAdmin = localStorage.getItem('isAdmin');
-        // Also check cookie if you want
         if (!isAdmin) {
             router.push('/admin/login');
+            return;
         }
-    }, [router]);
 
-    const currentStats = analyticsData[period];
+        // Load Real Bookings from LocalStorage
+        const localBookings = JSON.parse(localStorage.getItem('admin_bookings') || '[]');
+        // Combine local bookings with initial bookings
+        // Use a Set or just unique IDs in a real app, assuming simple prepend here
+        const allBookings = [...localBookings, ...initialBookings];
+
+        // Sort by Date (descending) / ID (descending) - simulated
+        // We'll trust the order is roughly chronological if prepend happens
+        setBookings(allBookings);
+
+        // Calculate Stats (Simple aggregation)
+        const totalRevenue = allBookings.reduce((acc: number, curr: any) => acc + curr.amount, 0);
+        const totalBookings = allBookings.length;
+
+        // Mock multiplier for periods (Logic would be complex for real date filtering)
+        if (period === 'weekly') {
+            // Just mocked distribution for demo
+            setStats({ bookings: Math.floor(totalBookings / 4), revenue: Math.floor(totalRevenue / 4), growth: 5 });
+        } else if (period === 'yearly') {
+            setStats({ bookings: totalBookings * 12, revenue: totalRevenue * 12, growth: 24 });
+        } else {
+            setStats({ bookings: totalBookings, revenue: totalRevenue, growth: 12 });
+        }
+
+    }, [router, period]);
 
     return (
         <div className="min-h-screen bg-gray-50/50 dark:bg-gray-950 p-6 md:p-10 font-sans">
@@ -104,9 +123,9 @@ export default function AdminDashboard() {
                             </div>
                         </div>
                         <div className="flex items-baseline gap-3 relative z-10">
-                            <span className="text-4xl font-bold text-gray-900 dark:text-white tracking-tight">{currentStats.bookings}</span>
+                            <span className="text-4xl font-bold text-gray-900 dark:text-white tracking-tight">{stats.bookings}</span>
                             <span className="flex items-center text-sm font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
-                                <ArrowUpRight className="w-3 h-3 mr-1" />{currentStats.growth}%
+                                <ArrowUpRight className="w-3 h-3 mr-1" />{stats.growth}%
                             </span>
                         </div>
                         <p className="text-sm text-gray-400 mt-4 font-medium">Compared to last {period.slice(0, -2)}</p>
@@ -124,9 +143,9 @@ export default function AdminDashboard() {
                             </div>
                         </div>
                         <div className="flex items-baseline gap-3 relative z-10">
-                            <span className="text-4xl font-bold text-gray-900 dark:text-white tracking-tight">₹{(currentStats.revenue / 1000).toFixed(1)}k</span>
+                            <span className="text-4xl font-bold text-gray-900 dark:text-white tracking-tight">₹{(stats.revenue / 1000).toFixed(1)}k</span>
                             <span className="flex items-center text-sm font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
-                                <ArrowUpRight className="w-3 h-3 mr-1" />{currentStats.growth + 2.5}%
+                                <ArrowUpRight className="w-3 h-3 mr-1" />{stats.growth + 2.5}%
                             </span>
                         </div>
                         <p className="text-sm text-gray-400 mt-4 font-medium">Compared to last {period.slice(0, -2)}</p>
@@ -144,7 +163,7 @@ export default function AdminDashboard() {
                             </div>
                         </div>
                         <div className="flex items-baseline gap-3 relative z-10">
-                            <span className="text-4xl font-bold text-gray-900 dark:text-white tracking-tight">{Math.floor(currentStats.bookings * 2.5)}</span>
+                            <span className="text-4xl font-bold text-gray-900 dark:text-white tracking-tight">{Math.floor(stats.bookings * 2.5)}</span>
                             <span className="flex items-center text-sm font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
                                 <ArrowUpRight className="w-3 h-3 mr-1" />18%
                             </span>
@@ -158,7 +177,7 @@ export default function AdminDashboard() {
                     <div className="p-6 md:px-8 md:py-6 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-gray-50/30">
                         <div className="flex items-center gap-2">
                             <h2 className="text-lg font-bold text-gray-900 dark:text-white font-heading">Recent Bookings</h2>
-                            <span className="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-0.5 rounded-full">{recentBookings.length} new</span>
+                            <span className="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-0.5 rounded-full">{bookings.length} total</span>
                         </div>
                         <div className="flex gap-2">
                             <Button variant="outline" size="sm" className="hidden sm:flex h-9 text-xs font-medium">
@@ -181,12 +200,12 @@ export default function AdminDashboard() {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
-                                {recentBookings.map((booking) => (
+                                {bookings.map((booking: any) => (
                                     <tr key={booking.id} className="hover:bg-gray-50/80 transition-colors group">
                                         <td className="px-8 py-4 whitespace-nowrap">
                                             <div className="flex items-center gap-4">
                                                 <div className={`h-10 w-10 rounded-full flex items-center justify-center font-bold text-sm shadow-sm
-                                    ${booking.id % 2 === 0 ? 'bg-gradient-to-br from-blue-100 to-blue-200 text-blue-700' : 'bg-gradient-to-br from-orange-100 to-orange-200 text-orange-700'}`}>
+                                    ${Number(booking.id) % 2 === 0 ? 'bg-gradient-to-br from-blue-100 to-blue-200 text-blue-700' : 'bg-gradient-to-br from-orange-100 to-orange-200 text-orange-700'}`}>
                                                     {booking.name.charAt(0)}
                                                 </div>
                                                 <div>

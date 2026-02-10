@@ -18,6 +18,7 @@ export function BookingSection() {
     const [date, setDate] = useState<Date | undefined>(undefined);
     const [time, setTime] = useState<string>('');
     const [people, setPeople] = useState<number>(1);
+    const [name, setName] = useState('');
     const [packageType, setPackageType] = useState<string>('Guided Horse Ride');
     const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
@@ -25,12 +26,31 @@ export function BookingSection() {
     const totalAmount = pricePerPerson * people;
 
     const handleSubmit = () => {
+        if (!name) {
+            alert('Please enter your name');
+            return;
+        }
         setIsPaymentModalOpen(true);
     };
 
     const handlePaymentSuccess = () => {
         const formattedDate = date ? date.toLocaleDateString() : 'N/A';
-        // In a real app, you would save this to a database
+
+        const newBooking = {
+            id: Date.now(),
+            name: name,
+            package: packageType,
+            date: date ? date.toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+            time: time,
+            guests: people,
+            status: "Confirmed",
+            amount: totalAmount
+        };
+
+        // Save to localStorage for Admin Dashboard simulation
+        const existingBookings = JSON.parse(localStorage.getItem('admin_bookings') || '[]');
+        localStorage.setItem('admin_bookings', JSON.stringify([newBooking, ...existingBookings]));
+
         console.log(`Booking Confirmed: ${packageType} on ${formattedDate} at ${time} for ${people} people.`);
     };
 
@@ -51,7 +71,23 @@ export function BookingSection() {
                     />
 
                     <div className="w-full max-w-4xl mt-10 grid grid-cols-1 sm:grid-cols-12 gap-6 items-end">
-                        <div className="sm:col-span-5">
+
+                        <div className="sm:col-span-12 md:col-span-4">
+                            <label htmlFor="name" className="block text-xs font-bold uppercase tracking-wider text-muted-foreground font-primary mb-2">
+                                Your Name
+                            </label>
+                            <input
+                                type="text"
+                                name="name"
+                                id="name"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                placeholder="Enter full name"
+                                className="block w-full rounded-xl border-0 py-3 px-4 text-foreground ring-1 ring-inset ring-border placeholder:text-muted-foreground focus:ring-2 focus:ring-inset focus:ring-primary text-sm leading-6 bg-background h-12 shadow-sm font-medium"
+                            />
+                        </div>
+
+                        <div className="sm:col-span-12 md:col-span-4">
                             <label htmlFor="package" className="block text-xs font-bold uppercase tracking-wider text-muted-foreground font-primary mb-2">
                                 Select Package
                             </label>
@@ -70,7 +106,7 @@ export function BookingSection() {
                             </select>
                         </div>
 
-                        <div className="sm:col-span-3">
+                        <div className="sm:col-span-6 md:col-span-2">
                             <label htmlFor="people" className="block text-xs font-bold uppercase tracking-wider text-muted-foreground font-primary mb-2">
                                 Guests
                             </label>
@@ -86,14 +122,14 @@ export function BookingSection() {
                             />
                         </div>
 
-                        <div className="sm:col-span-4">
+                        <div className="sm:col-span-6 md:col-span-2">
                             <Button
                                 onClick={handleSubmit}
                                 size="lg"
                                 className="w-full rounded-xl bg-accent text-accent-foreground hover:bg-accent/90 font-bold text-base h-12 shadow-md hover:shadow-lg transition-all"
                                 disabled={!date || !time}
                             >
-                                Book for ₹{totalAmount.toLocaleString()}
+                                Book
                             </Button>
                         </div>
                     </div>
@@ -110,4 +146,5 @@ export function BookingSection() {
             )}
         </section>
     );
+
 }
