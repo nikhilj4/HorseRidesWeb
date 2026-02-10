@@ -14,11 +14,23 @@ export function HeroSection() {
                 <section>
                     <div className="py-24 md:pb-32 lg:pb-36 lg:pt-44">
                         <div className="relative z-10 mx-auto flex max-w-7xl flex-col px-6 lg:block lg:px-12">
-                            <div className="mx-auto max-w-lg text-center lg:ml-0 lg:max-w-full lg:text-left">
-                                <h1 className="mt-8 max-w-2xl text-balance text-5xl font-heading font-bold md:text-6xl lg:mt-16 xl:text-7xl text-foreground">Experience Nature on Horseback</h1>
-                                <p className="mt-8 max-w-2xl text-balance text-lg text-muted-foreground font-primary">Guided horse riding experiences for tourists and local visitors. Explore scenic routes, connect with trained horses, and create unforgettable memories.</p>
+                            <div
+                                className="mx-auto max-w-lg text-center lg:ml-0 lg:max-w-full lg:text-left"
+                            >
+                                <h1
+                                    className="mt-8 max-w-2xl text-balance text-5xl font-heading font-bold md:text-6xl lg:mt-16 xl:text-7xl text-foreground"
+                                >
+                                    Experience Nature on Horseback
+                                </h1>
+                                <p
+                                    className="mt-8 max-w-2xl text-balance text-lg text-muted-foreground font-primary"
+                                >
+                                    Guided horse riding experiences for tourists and local visitors. Explore scenic routes, connect with trained horses, and create unforgettable memories.
+                                </p>
 
-                                <div className="mt-12 flex flex-col items-center justify-center gap-2 sm:flex-row lg:justify-start">
+                                <div
+                                    className="mt-12 flex flex-col items-center justify-center gap-2 sm:flex-row lg:justify-start"
+                                >
                                     <Button
                                         asChild
                                         size="lg"
