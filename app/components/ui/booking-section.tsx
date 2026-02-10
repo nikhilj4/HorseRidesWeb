@@ -19,6 +19,7 @@ export function BookingSection() {
     const [time, setTime] = useState<string>('');
     const [people, setPeople] = useState<number>(1);
     const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
     const [packageType, setPackageType] = useState<string>('Guided Horse Ride');
     const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
@@ -26,8 +27,8 @@ export function BookingSection() {
     const totalAmount = pricePerPerson * people;
 
     const handleSubmit = () => {
-        if (!name) {
-            alert('Please enter your name');
+        if (!name || !email) {
+            alert('Please enter your name and email');
             return;
         }
         setIsPaymentModalOpen(true);
@@ -39,6 +40,7 @@ export function BookingSection() {
         const newBooking = {
             id: Date.now(),
             name: name,
+            email: email,
             package: packageType,
             date: date ? date.toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
             time: time,
@@ -51,7 +53,7 @@ export function BookingSection() {
         const existingBookings = JSON.parse(localStorage.getItem('admin_bookings') || '[]');
         localStorage.setItem('admin_bookings', JSON.stringify([newBooking, ...existingBookings]));
 
-        console.log(`Booking Confirmed: ${packageType} on ${formattedDate} at ${time} for ${people} people.`);
+        console.log(`Booking Confirmed: ${packageType} on ${formattedDate} at ${time} for ${people} people. Email: ${email}`);
 
         // Add to Google Calendar
         if (date && time) {
@@ -70,7 +72,7 @@ export function BookingSection() {
             gCalUrl.searchParams.append("action", "TEMPLATE");
             gCalUrl.searchParams.append("text", `Horse Ride: ${packageType}`);
             gCalUrl.searchParams.append("dates", `${formatGCalDate(startDateTime)}/${formatGCalDate(endDateTime)}`);
-            gCalUrl.searchParams.append("details", `Customer: ${name}\nGuests: ${people}\nPackage: ${packageType}\nAmount paid: ₹${totalAmount}`);
+            gCalUrl.searchParams.append("details", `Customer: ${name}\nEmail: ${email}\nGuests: ${people}\nPackage: ${packageType}\nAmount paid: ₹${totalAmount}\n\nNote: Please save this event to confirm your slot.`);
             gCalUrl.searchParams.append("location", "Horse Riding Center");
             gCalUrl.searchParams.append("add", "nikhiljram4@gmail.com");
 
@@ -97,7 +99,7 @@ export function BookingSection() {
 
                     <div className="w-full max-w-4xl mt-10 grid grid-cols-1 sm:grid-cols-12 gap-6 items-end">
 
-                        <div className="sm:col-span-12 md:col-span-4">
+                        <div className="sm:col-span-12 md:col-span-3">
                             <label htmlFor="name" className="block text-xs font-bold uppercase tracking-wider text-muted-foreground font-primary mb-2">
                                 Your Name
                             </label>
@@ -107,12 +109,27 @@ export function BookingSection() {
                                 id="name"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
-                                placeholder="Enter full name"
+                                placeholder="Full name"
                                 className="block w-full rounded-xl border-0 py-3 px-4 text-foreground ring-1 ring-inset ring-border placeholder:text-muted-foreground focus:ring-2 focus:ring-inset focus:ring-primary text-sm leading-6 bg-background h-12 shadow-sm font-medium"
                             />
                         </div>
 
-                        <div className="sm:col-span-12 md:col-span-4">
+                        <div className="sm:col-span-12 md:col-span-3">
+                            <label htmlFor="email" className="block text-xs font-bold uppercase tracking-wider text-muted-foreground font-primary mb-2">
+                                Email Address
+                            </label>
+                            <input
+                                type="email"
+                                name="email"
+                                id="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="name@example.com"
+                                className="block w-full rounded-xl border-0 py-3 px-4 text-foreground ring-1 ring-inset ring-border placeholder:text-muted-foreground focus:ring-2 focus:ring-inset focus:ring-primary text-sm leading-6 bg-background h-12 shadow-sm font-medium"
+                            />
+                        </div>
+
+                        <div className="sm:col-span-12 md:col-span-3">
                             <label htmlFor="package" className="block text-xs font-bold uppercase tracking-wider text-muted-foreground font-primary mb-2">
                                 Select Package
                             </label>
@@ -131,7 +148,7 @@ export function BookingSection() {
                             </select>
                         </div>
 
-                        <div className="sm:col-span-6 md:col-span-2">
+                        <div className="sm:col-span-6 md:col-span-1">
                             <label htmlFor="people" className="block text-xs font-bold uppercase tracking-wider text-muted-foreground font-primary mb-2">
                                 Guests
                             </label>
