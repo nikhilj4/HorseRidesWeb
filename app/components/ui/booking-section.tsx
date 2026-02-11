@@ -68,16 +68,30 @@ export function BookingSection() {
             // Format for Google Calendar: YYYYMMDDTHHmmssZ
             const formatGCalDate = (d: Date) => d.toISOString().replace(/-|:|\.\d\d\d/g, "");
 
-            const gCalUrl = new URL("https://www.google.com/calendar/render");
-            gCalUrl.searchParams.append("action", "TEMPLATE");
-            gCalUrl.searchParams.append("text", `Horse Ride: ${packageType}`);
-            gCalUrl.searchParams.append("dates", `${formatGCalDate(startDateTime)}/${formatGCalDate(endDateTime)}`);
-            gCalUrl.searchParams.append("details", `Customer: ${name}\nEmail: ${email}\nGuests: ${people}\nPackage: ${packageType}\nAmount paid: ₹${totalAmount}\n\nNote: Please save this event to confirm your slot.`);
-            gCalUrl.searchParams.append("location", "Horse Riding Center");
-            gCalUrl.searchParams.append("add", "nikhiljram4@gmail.com");
-
-            // Open in new tab allow popup
-            window.open(gCalUrl.toString(), '_blank');
+            // Call API to create Google Calendar Event
+            fetch('/api/calendar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name,
+                    email,
+                    packageType,
+                    guests: people,
+                    amount: totalAmount,
+                    date: date ? date.toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+                    time
+                })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Booking Confirmed! A calendar invite has been sent to your email.');
+                    } else {
+                        console.error('Calendar Error:', data.error);
+                        alert('Booking saved locally. Note: Calendar sync requires server configuration.');
+                    }
+                })
+                .catch(err => console.error('Booking API Error:', err));
         }
     };
 

@@ -17,18 +17,84 @@ export function PaymentModal({ isOpen, onClose, totalAmount, email = "customer@e
 
     if (!isOpen) return null;
 
-    const handlePay = () => {
+    const handlePay = async () => {
         setStep('processing');
-        // Simulate processing time
-        setTimeout(() => {
-            setStep('success');
-            // Auto close after success
-            setTimeout(() => {
-                onSuccess();
-                onClose();
-                setStep('details'); // Reset for next time
-            }, 2000);
-        }, 1500);
+
+        // 1. Load Razorpay Script
+        const loadScript = (src: string) => {
+            return new Promise((resolve) => {
+                const script = document.createElement('script');
+                script.src = src;
+                script.onload = () => resolve(true);
+                script.onerror = () => resolve(false);
+                document.body.appendChild(script);
+            });
+        };
+
+        const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js');
+
+        if (!res) {
+            alert('Razorpay SDK failed to load. Are you online?');
+            setStep('details');
+            return;
+        }
+
+        // 2. Create Order on Server
+        try {
+            const result = await fetch('/api/razorpay', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ amount: totalAmount }),
+            });
+
+            const data = await result.json();
+
+            if (!data.success) {
+                alert(data.error || 'Server error. Please try again.');
+                setStep('details');
+                return;
+            }
+
+            const options = {
+                key: data.key,
+                amount: data.amount,
+                currency: data.currency,
+                name: "Nova Logic Stables",
+                description: "Horse Ride Booking",
+                order_id: data.orderId,
+                handler: function (response: any) {
+                    // Payment Success
+                    console.log("Payment ID: ", response.razorpay_payment_id);
+                    setStep('success');
+                    setTimeout(() => {
+                        onSuccess();
+                        onClose();
+                        setStep('details');
+                    }, 2000);
+                },
+                prefill: {
+                    email: email,
+                    contact: contact,
+                    // name: "User", // Ideally pass name prop
+                },
+                theme: {
+                    color: "#3395FF",
+                },
+                modal: {
+                    ondismiss: function () {
+                        setStep('details');
+                    }
+                }
+            };
+
+            const paymentObject = new (window as any).Razorpay(options);
+            paymentObject.open();
+
+        } catch (error) {
+            console.error("Payment Error:", error);
+            alert('Payment failed to initiate. Please check your connection.');
+            setStep('details');
+        }
     };
 
     return (
