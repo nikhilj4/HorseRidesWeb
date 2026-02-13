@@ -35,7 +35,7 @@ export function SpecialOffersDemo() {
         <section className="py-24 bg-secondary/20 flex justify-center px-4">
             <OffersCarousel
                 offerTitle="Our Signature Safaris"
-                offerSubtitle="Experience the best of The Eco Ranch with our curated horseback adventures."
+                offerSubtitle="Experience the best of The Eco Ranch. All our safaris include: Professional Guide, Safety Equipment, Refreshments, and Scenic Views."
                 ctaText="Book Your Ride"
                 onCtaClick={() => document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' })}
                 items={rides}
