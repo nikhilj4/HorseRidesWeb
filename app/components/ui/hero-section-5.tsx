@@ -20,12 +20,13 @@ export function HeroSection() {
                                 <h1
                                     className="mt-8 max-w-2xl text-balance text-5xl font-heading font-bold md:text-6xl lg:mt-16 xl:text-7xl text-foreground"
                                 >
-                                    Experience Nature on Horseback
+                                    The Eco Ranch
                                 </h1>
+                                <p className="text-xl md:text-2xl font-semibold text-accent mt-4 font-heading">Sustainable Living Paradise</p>
                                 <p
-                                    className="mt-8 max-w-2xl text-balance text-lg text-muted-foreground font-primary"
+                                    className="mt-6 max-w-2xl text-balance text-lg text-muted-foreground font-primary"
                                 >
-                                    Guided horse riding experiences for tourists and local visitors. Explore scenic routes, connect with trained horses, and create unforgettable memories.
+                                    Where every step, trot, and breeze through the trees is part of a story. Join us for a horseback safari designed to blend comfort, adventure, and meaningful connection.
                                 </p>
 
                                 <div
@@ -102,7 +103,7 @@ const HeroHeader = () => {
                                 href="/"
                                 aria-label="home"
                                 className="flex items-center space-x-2">
-                                <span className="font-heading font-bold text-2xl tracking-tighter">HorseRides</span>
+                                <span className="font-heading font-bold text-2xl tracking-tighter">The Eco Ranch</span>
                             </Link>
 
                             <button

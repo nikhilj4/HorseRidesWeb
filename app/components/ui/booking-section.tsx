@@ -6,12 +6,9 @@ import { AppointmentDatePicker } from "@/components/ui/appointment-calendar";
 import { PaymentModal } from "@/components/ui/payment-modal";
 
 const prices: Record<string, number> = {
-    "Guided Horse Ride": 1500,
-    "Sunset Ride": 2000,
-    "Jeep Safari": 2500,
-    "Night Camping": 3000,
-    "Beginner Lesson": 1200,
-    "regular": 1500
+    "The Farmland Heritage Ride": 3500,
+    "The Wildwood Prestige Safari": 4000,
+    "The Summit Grandeur Safari": 4500,
 };
 
 export function BookingSection() {
@@ -20,10 +17,10 @@ export function BookingSection() {
     const [people, setPeople] = useState<number>(1);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
-    const [packageType, setPackageType] = useState<string>('Guided Horse Ride');
+    const [packageType, setPackageType] = useState<string>('The Farmland Heritage Ride');
     const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
-    const pricePerPerson = prices[packageType] || 1500;
+    const pricePerPerson = prices[packageType] || 3500;
     const totalAmount = pricePerPerson * people;
 
     const handleSubmit = () => {
@@ -154,11 +151,9 @@ export function BookingSection() {
                                 onChange={(e) => setPackageType(e.target.value)}
                                 className="block w-full rounded-xl border-0 py-3 px-4 text-foreground ring-1 ring-inset ring-border focus:ring-2 focus:ring-inset focus:ring-primary text-sm bg-background h-12 shadow-sm font-medium"
                             >
-                                <option value="Guided Horse Ride">Guided Horse Ride (₹1500)</option>
-                                <option value="Sunset Ride">Sunset Beach Ride (₹2000)</option>
-                                <option value="Jeep Safari">Jeep Safari Adventure (₹2500)</option>
-                                <option value="Night Camping">Night Camping Experience (₹3000)</option>
-                                <option value="Beginner Lesson">Beginner Riding Lesson (₹1200)</option>
+                                <option value="The Farmland Heritage Ride">The Farmland Heritage Ride (₹3,500)</option>
+                                <option value="The Wildwood Prestige Safari">The Wildwood Prestige Safari (₹4,000)</option>
+                                <option value="The Summit Grandeur Safari">The Summit Grandeur Safari (₹4,500)</option>
                             </select>
                         </div>
 

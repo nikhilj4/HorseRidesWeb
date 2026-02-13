@@ -1,32 +1,32 @@
-import { TreeDeciduous, Users, Camera, DollarSign, ShieldCheck } from "lucide-react";
+import { TreeDeciduous, Users, Camera, ShieldCheck, Map, Leaf, BookOpen } from "lucide-react";
 
 import ClippedShapeGallery from "@/components/ui/clipped-shape-image";
 
 const features = [
     {
-        name: "Guided Horse Rides",
-        description: "Experience the thrill of riding with professional guides who ensure your safety and enjoyment.",
-        icon: TreeDeciduous,
+        name: "Learn While You Ride",
+        description: "Not just fun, fascinating too! Discover how horses think, communicate, and trust, while picking up gentle riding skills along the way.",
+        icon: BookOpen,
     },
     {
-        name: "Beginner Friendly",
-        description: "Never ridden before? No problem! Our calm horses and patient instructors make it easy to start.",
+        name: "Confidence-Building & Beginner-Friendly (5+)",
+        description: "Calm, welcoming, and pressure-free perfect for first-timers, young riders, and families looking for a safe outdoor adventure.",
         icon: ShieldCheck,
     },
     {
-        name: "Family & Group Rides",
-        description: "Create memories together. We offer special packages for families and groups of all sizes.",
+        name: "Adventure on Every Trail",
+        description: "Wander through scenic paths, meet friendly ranch animals, and experience nature up close in a way you simply can’t from the sidelines.",
+        icon: Map,
+    },
+    {
+        name: "Nature’s Reset Button",
+        description: "Ride past waterfalls, beneath shady trees, and through peaceful bird zones, a refreshing escape from busy everyday life.",
+        icon: Leaf,
+    },
+    {
+        name: "Memories Made Together",
+        description: "Ideal for families, friends, and small groups, because the best adventures are the ones you share.",
         icon: Users,
-    },
-    {
-        name: "Scenario Nature Trails",
-        description: "Ride through breathtaking landscapes, specifically chosen for their beauty and tranquility.",
-        icon: Camera,
-    },
-    {
-        name: "Affordable Pricing",
-        description: "Premium experiences at competitive rates. We believe adventure should be accessible to everyone.",
-        icon: DollarSign,
     },
 ];
 
@@ -56,12 +56,12 @@ export function ServicesSection() {
         <div id="services" className="bg-background py-24 sm:py-32 relative z-10 mt-12">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
                 <div className="mx-auto max-w-2xl lg:text-center mb-16">
-                    <h2 className="text-base font-semibold leading-7 text-accent font-primary">Our Activities</h2>
+                    <h2 className="text-base font-semibold leading-7 text-accent font-primary">Why Choose Us</h2>
                     <p className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl font-heading">
-                        Activities & Adventures
+                        Why You’ll Love the Horseback Safari 🐎
                     </p>
                     <p className="mt-2 text-lg leading-8 text-muted-foreground font-primary">
-                        Beyond just riding, we offer a complete adventure package including jeep safaris and night camping under the stars.
+                        Connect with nature and gentle animals in a safe, guided environment designed for everyone.
                     </p>
                 </div>
 

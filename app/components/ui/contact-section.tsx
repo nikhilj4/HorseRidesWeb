@@ -19,7 +19,7 @@ export function ContactSection() {
                                 </div>
                                 <div>
                                     <p className="font-semibold">Call Us</p>
-                                    <p>+91 98765 432XX</p>
+                                    <p>+91 74118 89506</p>
                                 </div>
                             </div>
                             <div className="flex items-center gap-4">
@@ -28,7 +28,7 @@ export function ContactSection() {
                                 </div>
                                 <div>
                                     <p className="font-semibold">Email</p>
-                                    <p>bookings@bangalorehorserides.com</p>
+                                    <p>contact@theecoranch.com</p>
                                 </div>
                             </div>
                             <div className="flex items-center gap-4">
@@ -37,7 +37,10 @@ export function ContactSection() {
                                 </div>
                                 <div>
                                     <p className="font-semibold">Visit Us</p>
-                                    <p>45, Green Valley Road, Nandi Hills, Bangalore</p>
+                                    <p>The Eco Ranch, Kanakapura</p>
+                                    <a href="https://maps.app.goo.gl/wqyezESrkbkvofxw7?g_st=ipc" target="_blank" rel="noopener noreferrer" className="text-sm underline hover:text-white">
+                                        Get Directions
+                                    </a>
                                 </div>
                             </div>
                         </div>
