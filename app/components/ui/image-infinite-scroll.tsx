@@ -2,24 +2,21 @@
 import React from 'react';
 
 export const ImageInfiniteScroll = () => {
-    // Using available gallery images
-    const images = [
-        "/gallery-1.jpg",
-        "/gallery-2.jpg",
-        "/gallery-3.jpg",
-        "/gallery-4.jpeg",
-        "/gallery-5.jpg",
-        "/gallery-6.jpg",
-        "/gallery-7.webp",
-        "/gallery-8.jpg"
-    ];
+  // Using Why Us gallery images
+  const images = [
+    "/why-us/1.jpeg",
+    "/why-us/2.jpeg",
+    "/why-us/3.jpeg",
+    "/why-us/4.jpeg",
+    "/why-us/5.jpeg"
+  ];
 
-    // Duplicate images for seamless loop
-    const duplicatedImages = [...images, ...images];
+  // Duplicate images for seamless loop
+  const duplicatedImages = [...images, ...images];
 
-    return (
-        <>
-            <style>{`
+  return (
+    <>
+      <style>{`
         @keyframes scroll-right {
           0% {
             transform: translateX(0);
@@ -60,28 +57,28 @@ export const ImageInfiniteScroll = () => {
         }
       `}</style>
 
-            <div className="w-full relative overflow-hidden flex items-center justify-center py-12">
-                {/* Scrolling images container */}
-                <div className="relative z-10 w-full flex items-center justify-center">
-                    <div className="scroll-container w-full max-w-7xl">
-                        <div className="infinite-scroll flex gap-6 w-max">
-                            {duplicatedImages.map((image, index) => (
-                                <div
-                                    key={index}
-                                    className="image-item flex-shrink-0 w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 rounded-xl overflow-hidden shadow-lg bg-muted"
-                                >
-                                    <img
-                                        src={image}
-                                        alt={`Gallery image ${index + 1}`}
-                                        className="w-full h-full object-cover"
-                                        loading="lazy"
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                    </div>
+      <div className="w-full relative overflow-hidden flex items-center justify-center py-12">
+        {/* Scrolling images container */}
+        <div className="relative z-10 w-full flex items-center justify-center">
+          <div className="scroll-container w-full max-w-7xl">
+            <div className="infinite-scroll flex gap-6 w-max">
+              {duplicatedImages.map((image, index) => (
+                <div
+                  key={index}
+                  className="image-item flex-shrink-0 w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 rounded-xl overflow-hidden shadow-lg bg-muted"
+                >
+                  <img
+                    src={image}
+                    alt={`Why Us image ${(index % images.length) + 1}`}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
                 </div>
+              ))}
             </div>
-        </>
-    );
+          </div>
+        </div>
+      </div>
+    </>
+  );
 };
