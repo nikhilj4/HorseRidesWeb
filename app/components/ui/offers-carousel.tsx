@@ -68,7 +68,7 @@ const ItemCard = ({ item }: { item: CarouselItem }) => (
                         </p>
                     )}
                 </div>
-                <p className="text-xs text-muted-foreground">/ night</p>
+                <p className="text-xs text-muted-foreground">/ person</p>
             </div>
         </div>
     </motion.div>
@@ -128,7 +128,7 @@ export const OffersCarousel = React.forwardRef<HTMLDivElement, OffersCarouselPro
                     <div className="flex flex-col items-center text-center lg:col-span-3 lg:items-start lg:text-left">
                         <div className="flex items-center gap-3">
                             {offerIcon || <Gift className="h-6 w-6 text-primary" />}
-                            <p className="text-sm text-muted-foreground">Since you're flying with us!</p>
+                            <p className="text-sm text-muted-foreground">Adventure awaits!</p>
                         </div>
                         <h2 className="mt-4 text-2xl font-bold text-primary">{offerTitle}</h2>
                         <p className="mt-1 text-sm text-muted-foreground">{offerSubtitle}</p>
