@@ -1,54 +1,29 @@
-import { TreeDeciduous, Users, Camera, ShieldCheck, Map, Leaf, BookOpen } from "lucide-react";
+"use client";
 
-import ClippedShapeGallery from "@/components/ui/clipped-shape-image";
+import { LinkCard } from "@/components/ui/link-card";
+import { ImageInfiniteScroll } from "@/components/ui/image-infinite-scroll";
 
 const features = [
     {
-        name: "Learn While You Ride",
+        title: "Learn While You Ride",
         description: "Not just fun, fascinating too! Discover how horses think, communicate, and trust, while picking up gentle riding skills along the way.",
-        icon: BookOpen,
     },
     {
-        name: "Confidence-Building & Beginner-Friendly (5+)",
+        title: "Confidence-Building & Beginner-Friendly (5+)",
         description: "Calm, welcoming, and pressure-free perfect for first-timers, young riders, and families looking for a safe outdoor adventure.",
-        icon: ShieldCheck,
     },
     {
-        name: "Adventure on Every Trail",
+        title: "Adventure on Every Trail",
         description: "Wander through scenic paths, meet friendly ranch animals, and experience nature up close in a way you simply can’t from the sidelines.",
-        icon: Map,
     },
     {
-        name: "Nature’s Reset Button",
+        title: "Nature’s Reset Button",
         description: "Ride past waterfalls, beneath shady trees, and through peaceful bird zones, a refreshing escape from busy everyday life.",
-        icon: Leaf,
     },
     {
-        name: "Memories Made Together",
+        title: "Memories Made Together",
         description: "Ideal for families, friends, and small groups, because the best adventures are the ones you share.",
-        icon: Users,
     },
-];
-
-const activityImages = [
-    {
-        src: '/horse-ride.jpg',
-        alt: 'Horse Ride',
-        clipId: 'clip-another1',
-        type: 'image'
-    },
-    {
-        src: '/jeep-safari.jpg',
-        alt: 'Jeep Safari',
-        clipId: 'clip-another2',
-        type: 'image'
-    },
-    {
-        src: '/night-camp.jpg',
-        alt: 'Night Camp',
-        clipId: 'clip-another3',
-        type: 'image'
-    }
 ];
 
 export function ServicesSection() {
@@ -65,24 +40,20 @@ export function ServicesSection() {
                     </p>
                 </div>
 
-                <div className="mb-24">
-                    <ClippedShapeGallery mediaItems={activityImages as any} />
+                <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-6 sm:grid-cols-2 lg:max-w-none lg:grid-cols-3">
+                    {features.map((feature, index) => (
+                        <LinkCard
+                            key={feature.title}
+                            title={feature.title}
+                            description={feature.description}
+                            href="#"
+                            className={index === 4 ? "sm:col-span-2 lg:col-span-1 lg:col-start-2" : ""}
+                        />
+                    ))}
                 </div>
 
-                <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
-                    <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-2 lg:gap-y-16">
-                        {features.map((feature) => (
-                            <div key={feature.name} className="relative pl-16">
-                                <dt className="text-xl font-bold leading-7 text-foreground font-heading">
-                                    <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
-                                        <feature.icon className="h-6 w-6 text-white" aria-hidden="true" />
-                                    </div>
-                                    {feature.name}
-                                </dt>
-                                <dd className="mt-2 text-lg leading-8 text-muted-foreground font-primary">{feature.description}</dd>
-                            </div>
-                        ))}
-                    </dl>
+                <div className="mt-24">
+                    <ImageInfiniteScroll />
                 </div>
             </div>
         </div>

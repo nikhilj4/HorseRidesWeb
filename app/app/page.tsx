@@ -1,7 +1,7 @@
 import { HeroSection } from "@/components/ui/hero-section-5"
 import { AboutSection } from "@/components/ui/about-section"
 import { ServicesSection } from "@/components/ui/services-section"
-import { ExperienceSection } from "@/components/ui/experience-section"
+import { HorizontalScrollExperience } from "@/components/ui/horizontal-scroll-experience"
 import { GallerySection } from "@/components/ui/gallery-section"
 import { BookingSection } from "@/components/ui/booking-section"
 import { ContactSection } from "@/components/ui/contact-section"
@@ -12,9 +12,9 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-background text-foreground font-sans">
       <HeroSection />
-      <AboutSection />
+      {/* AboutSection removed */}
       <ServicesSection />
-      <ExperienceSection />
+      <HorizontalScrollExperience />
       <SpecialOffersDemo />
       <GallerySection />
       <ReviewSummaryCardDemo />
