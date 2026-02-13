@@ -9,7 +9,7 @@ export function ContactSection() {
                     <div>
                         <h2 className="text-3xl font-bold font-heading sm:text-4xl">Get in Touch</h2>
                         <p className="mt-4 text-lg font-primary opacity-90">
-                            Have questions or need a custom booking? Reach out to us directly or visit our stable.
+                            Looking for Pre-Wedding Shoots, Personal Videography, or a Custom Booking? Reach out to us directly or visit our stable.
                         </p>
 
                         <div className="mt-8 space-y-6 font-primary text-lg">
